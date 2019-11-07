@@ -31,7 +31,7 @@ namespace EasyMobile.WSConsent
 
         #endregion
 
-        #region Demo Consent Dialog - Sample Content In English
+        #region Default Consent Dialog - Sample Content In English
 
         public const string EnTitle = "Ball Twister Consent";
 
@@ -88,11 +88,11 @@ namespace EasyMobile.WSConsent
 
         // The button title in English.
         public const string EnButtonTitle = "Accept";
- 
+
 
         #endregion
 
-        #region Demo Consent Dialog - Content in differenc language
+        #region Alternative Consent Dialog - Content in different language
 
         ///-----------------------------------------------------------------
         /// Here we use Google Translate to manually translate the above content
@@ -159,10 +159,10 @@ namespace EasyMobile.WSConsent
 
         #region Toggle and Button IDs
 
-        private const string AdsToggleId = "em-demo-consent-toggle-ads";
-        private const string NotifsToggleId = "em-demo-consent-toggle-notifs";
-        private const string UnityAnalyticsToggleId = "em-demo-consent-toggle-unity-analytics";
-        private const string AcceptButtonId = "em-demo-consent-button-ok";
+        private const string AdsToggleId = "em-consent-toggle-ads";
+        private const string NotifsToggleId = "em-consent-toggle-notifs";
+        private const string UnityAnalyticsToggleId = "em-consent-toggle-unity-analytics";
+        private const string AcceptButtonId = "em-consent-button-ok";
 
         #endregion
 
@@ -195,7 +195,7 @@ namespace EasyMobile.WSConsent
             // is shown from the demo buttons.
             if (string.IsNullOrEmpty(unityAnalyticsOptOutURL))
                 FetchUnityAnalyticsOptOutURL(null, null);
-            
+
             // If we think consent is not needed for our app (or the current device
             // is not in EEA region), we can just
             // go ahead and initialize EM runtime as normal.
@@ -210,7 +210,7 @@ namespace EasyMobile.WSConsent
             // Here's the case where we want to ask for consent before initializing.
             // Before initialization we need to check
             // if we have user's data privacy consent or not.
-            DemoAppConsent consent = DemoAppConsent.LoadDemoAppConsent();
+            AppConsent consent = AppConsent.LoadAppConsent();
 
             // If there's a stored consent:
             // the implementation of this demo app guarantees
@@ -257,6 +257,7 @@ namespace EasyMobile.WSConsent
             //    "Is In EEA Region: " + mIsInEEARegion.ToString().ToUpper());
         }
 
+        // NOTE! Back button removed from title!
         public void PreviewDefaultConsentDialog(bool dismissible = true)
         {
             if (mPreviewConsentDialog == null)
@@ -269,7 +270,7 @@ namespace EasyMobile.WSConsent
             mPreviewConsentDialog.Show(dismissible);
         }
 
-        public void ShowConsentDialog(bool dismissible = true)
+        public void ShowConsentDialog(bool dismissible = false)
         {
             // Show a consent dialog in English.
             ShowConsentDialog(false, dismissible);
@@ -278,7 +279,7 @@ namespace EasyMobile.WSConsent
         public void ShowLocalizedConsentDialog(bool dismissible = true)
         {
             // Show a consent dialog in localized language.
-            ShowConsentDialog(true, dismissible);   
+            ShowConsentDialog(true, dismissible);
         }
 
         public static void ShowConsentDialog(bool localize, bool dismissible)
@@ -324,12 +325,12 @@ namespace EasyMobile.WSConsent
             /// with translated texts in script before showing
             /// the dialog for localization purpose.
             /// 
-             
+
             // First check if there's any consent saved previously.
             // If there is, we will set the 'isOn' state of our toggles
             // according to the saved consent to reflect the current consent
             // status on the consent dialog.
-            DemoAppConsent consent = DemoAppConsent.LoadDemoAppConsent();
+            AppConsent consent = AppConsent.LoadAppConsent();
 
             // First create a new consent dialog.
             ConsentDialog dialog = new ConsentDialog();
@@ -370,7 +371,7 @@ namespace EasyMobile.WSConsent
             // to the toggle description. Otherwise we'll use the "URL unavailable" description.
             // Note that this toggle is ON by default and is not interactable because we can't opt-out
             // Unity Analytics locally, instead the user must visit the fetched URL to opt-out.
-            ConsentDialog.Toggle uaToggle = new ConsentDialog.Toggle(UnityAnalyticsToggleId); 
+            ConsentDialog.Toggle uaToggle = new ConsentDialog.Toggle(UnityAnalyticsToggleId);
             uaToggle.Title = localize ? AltAnalyticsToggleTitle : EnAnalyticsToggleTitle;
             uaToggle.ShouldToggleDescription = false;   // the description won't change when the toggle switches between on & off states.
             uaToggle.IsInteractable = false; // not interactable
@@ -392,7 +393,7 @@ namespace EasyMobile.WSConsent
             dialog.AppendToggle(uaToggle);
 
             // Append the second paragraph.
-            dialog.AppendText(localize ? AltSecondParagraph : EnSecondParagraph);
+            dialog.AppendText(localize ? AltSecondParagraph : EnFourthParagraph);
 
             // Build and append the accept button.
             // A consent dialog should always have at least one button!
@@ -421,7 +422,7 @@ namespace EasyMobile.WSConsent
                 if (success != null)
                     success(unityAnalyticsOptOutURL);
             }
-                
+
             // Here we need to invokes the methods via reflection because we don't know if
             // you've imported the Unity Data Privacy plugin or not!
             // In your actual app you can simply import the plugin and call it methods as normal.
@@ -460,7 +461,7 @@ namespace EasyMobile.WSConsent
             initMethod.Invoke(null, null);
 
             // Now fetch the opt-out URL.
-            fetchURLMethod.Invoke(null, 
+            fetchURLMethod.Invoke(null,
                 new object[]
                 {
                     (Action<string>)((url) =>
@@ -479,7 +480,7 @@ namespace EasyMobile.WSConsent
             unityAnalyticsOptOutURL = url;
             if (callback != null)
                 callback(url);
-            
+
             Debug.Log("Unity Analytics opt-out URL is fetched successfully.");
         }
 
@@ -488,35 +489,36 @@ namespace EasyMobile.WSConsent
             unityAnalyticsOptOutURL = string.Empty;
             if (callback != null)
                 callback(error);
-            
+
             Debug.LogWarning("Fetching Unity Analytics opt-out URL failed with error: " + error);
         }
 
         #endregion
 
-        #region Demo Consent Dialog Event Handlers
+        #region  Consent Dialog Event Handlers
 
         private static void SubscribeConsentDialogEvents(ConsentDialog dialog)
         {
             if (dialog == null)
                 return;
-            
-            dialog.Dismissed += DemoDialog_Dismissed;
-            dialog.Completed += DemoDialog_Completed;
-            dialog.ToggleStateUpdated += DemoDialog_ToggleStateUpdated;
+
+            dialog.Dismissed += Dialog_Dismissed;
+            dialog.Completed += Dialog_Completed;
+            dialog.ToggleStateUpdated += Dialog_ToggleStateUpdated;
         }
 
-        private static void DemoDialog_Dismissed(ConsentDialog dialog)
+        private static void Dialog_Dismissed(ConsentDialog dialog)
         {
-            Debug.Log("Demo consent dialog was dismissed.");
+            Debug.Log(" consent dialog was dismissed.");
+            SceneManager.LoadScene("02_Play");
         }
 
-        private static void DemoDialog_Completed(ConsentDialog dialog, ConsentDialog.CompletedResults results)
+        private static void Dialog_Completed(ConsentDialog dialog, ConsentDialog.CompletedResults results)
         {
-            Debug.Log("Demo consent dialog completed with button ID: " + results.buttonId);
+            Debug.Log(" consent dialog completed with button ID: " + results.buttonId);
 
             // Construct the new consent.
-            DemoAppConsent newConsent = new DemoAppConsent();
+            AppConsent newConsent = new AppConsent();
 
             if (results.toggleValues != null)
             {
@@ -547,15 +549,16 @@ namespace EasyMobile.WSConsent
                         // Unrecognized toggle ID.
                     }
                 }
+                SceneManager.LoadScene("02_Play");
             }
 
             Debug.Log("Now forwarding new consent to relevant modules and then store it...");
 
             // Forward the consent to relevant modules.
-            DemoAppConsent.ApplyDemoAppConsent(newConsent);
+            AppConsent.ApplyAppConsent(newConsent);
 
             // Store the new consent.
-            DemoAppConsent.SaveDemoAppConsent(newConsent);
+            AppConsent.SaveAppConsent(newConsent);
 
             // So now we have applied the consent, we can initialize EM runtime
             // (as well as other 3rd-party SDKs in a real-world app).
@@ -572,7 +575,7 @@ namespace EasyMobile.WSConsent
             }
         }
 
-        private static void DemoDialog_ToggleStateUpdated(ConsentDialog dialog, string toggleId, bool isOn)
+        private static void Dialog_ToggleStateUpdated(ConsentDialog dialog, string toggleId, bool isOn)
         {
             Debug.Log("ToggleStateUpdated. ID: " + toggleId + "; new value: " + isOn);
         }

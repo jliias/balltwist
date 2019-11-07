@@ -14,9 +14,9 @@ namespace EasyMobile.WSConsent
     /// to a JSON string and store in PlayerPrefs.
     /// </summary>
     [Serializable]
-    public class DemoAppConsent
+    public class AppConsent
     {
-        public const string DemoStorageKey = "Balltwister_AppConsent";
+        public const string DemoStorageKey = "Balltwister_AppConsentX";
 
         #region 3rd-party Services Consent
 
@@ -68,7 +68,7 @@ namespace EasyMobile.WSConsent
         /// In a real-world app, you'd want to write similar method
         /// to forward the obtained consent not only to relevant EM modules
         /// and services, but also to other relevant 3rd-party SDKs in your app.
-        public static void ApplyDemoAppConsent(DemoAppConsent consent)
+        public static void ApplyAppConsent(AppConsent consent)
         {
             // Forward the consent to the Advertising module.
             if (consent.advertisingConsent == ConsentStatus.Granted)
@@ -90,7 +90,7 @@ namespace EasyMobile.WSConsent
         /// Saves the give app consent to PlayerPrefs as JSON using the demo storage key.
         /// </summary>
         /// <param name="consent">Consent.</param>
-        public static void SaveDemoAppConsent(DemoAppConsent consent)
+        public static void SaveAppConsent(AppConsent consent)
         {
             if (consent != null)
                 consent.Save(DemoStorageKey);
@@ -100,12 +100,12 @@ namespace EasyMobile.WSConsent
         /// Loads the demo app consent from PlayerPrefs, returns null if nothing stored previously.
         /// </summary>
         /// <returns>The demo app consent.</returns>
-        public static DemoAppConsent LoadDemoAppConsent()
+        public static AppConsent LoadAppConsent()
         {
             string json = PlayerPrefs.GetString(DemoStorageKey, null);
 
             if (!string.IsNullOrEmpty(json))
-                return JsonUtility.FromJson<DemoAppConsent>(json);
+                return JsonUtility.FromJson<AppConsent>(json);
             else
                 return null;
         }

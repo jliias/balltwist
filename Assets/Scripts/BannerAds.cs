@@ -22,23 +22,23 @@ public class BannerAds : MonoBehaviour
     public void Start()
     {
 
-        npaSelected = false;
-        if (PlayerPrefs.HasKey("consentValue"))
-        {
-            int thisValue = PlayerPrefs.GetInt("consentValue", 0);
-            if (thisValue == 0)
-            {
-                Advertising.GrantDataPrivacyConsent();
-                npaSelected = false;
-                Debug.Log("personalized ads!");
-            }
-            else
-            {
-                Advertising.RevokeDataPrivacyConsent();
-                npaSelected = true;
-                Debug.Log("random ads!");
-            }
-        }
+        //npaSelected = false;
+        //if (PlayerPrefs.HasKey("consentValue"))
+        //{
+        //    int thisValue = PlayerPrefs.GetInt("consentValue", 0);
+        //    if (thisValue == 0)
+        //    {
+        //        Advertising.GrantDataPrivacyConsent();
+        //        npaSelected = false;
+        //        Debug.Log("personalized ads!");
+        //    }
+        //    else
+        //    {
+        //        Advertising.RevokeDataPrivacyConsent();
+        //        npaSelected = true;
+        //        Debug.Log("random ads!");
+        //    }
+        //}
 
         // Reads the current module-level consent of the Advertising module.
         ConsentStatus moduleConsent = Advertising.DataPrivacyConsent;

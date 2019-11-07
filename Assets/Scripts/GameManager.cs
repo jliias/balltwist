@@ -47,15 +47,17 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
-        if (!PlayerPrefs.HasKey("consentValue"))
+        Debug.Log("Consent: " + Advertising.DataPrivacyConsent);
+        if (!PlayerPrefs.HasKey("Balltwister_AppConsentX"))
         {
-            SceneManager.LoadScene("00_Init");
+            SceneManager.LoadScene("01_Consent");
         }
-        else {
-            Debug.Log("SetupConsent: " + PlayerPrefs.GetInt("consentValue"));
+        else
+        {
+            Debug.Log("Ad consent granted: " + Advertising.DataPrivacyConsent);
         }
 
-        #if UNITY_ANDROID
+#if UNITY_ANDROID
         isAndroid = true;
         //GPlaySignIn();
         #endif
@@ -284,7 +286,7 @@ public class GameManager : MonoBehaviour
     public void SetupConsent() {
         //FindObjectOfType<AdMobAds>().DismissBanner();
         FindObjectOfType<BannerAds>().DismissBanner();
-        SceneManager.LoadScene("00_Init");
+        SceneManager.LoadScene("01_Consent");
     }
 }
 

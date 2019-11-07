@@ -9,6 +9,9 @@ EditorBuildSettings:
     path: Assets/_Scenes/02_Play.unity
     guid: 25608f62ca66b364dad707713d5eeee6
   - enabled: 1
+    path: Assets/_Scenes/01_Consent.unity
+    guid: 8e8f0ebabde997d42871265988e2218a
+  - enabled: 0
     path: Assets/_Scenes/00_Init.unity
     guid: 91b5ea42cf534af45a31bbf98ad97127
   m_configObjects: {}
