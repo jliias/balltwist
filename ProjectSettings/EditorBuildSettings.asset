@@ -9,7 +9,7 @@ EditorBuildSettings:
     path: Assets/_Scenes/02_Play.unity
     guid: 25608f62ca66b364dad707713d5eeee6
   - enabled: 1
-    path: Assets/_Scenes/01_Consent.unity
+    path: Assets/WSConsent/Scenes/01_Consent.unity
     guid: 8e8f0ebabde997d42871265988e2218a
   - enabled: 0
     path: Assets/_Scenes/00_Init.unity

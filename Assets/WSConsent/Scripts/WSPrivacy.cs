@@ -191,11 +191,10 @@ namespace EasyMobile.WSConsent
                     mIsInEEARegion = result == EEARegionStatus.InEEA;
                 });
 
-            // Fetch Unity Analytics URL for use in case the consent dialog
-            // is shown from the demo buttons.
-            if (string.IsNullOrEmpty(unityAnalyticsOptOutURL))
-                FetchUnityAnalyticsOptOutURL(null, null);
-
+    //        // Fetch Unity Analytics URL for use in case the consent dialog
+    //        // is shown from the demo buttons.
+    //        if (string.IsNullOrEmpty(unityAnalyticsOptOutURL))
+    //            FetchUnityAnalyticsOptOutURL(null, null);
             // If we think consent is not needed for our app (or the current device
             // is not in EEA region), we can just
             // go ahead and initialize EM runtime as normal.
@@ -211,6 +210,7 @@ namespace EasyMobile.WSConsent
             // Before initialization we need to check
             // if we have user's data privacy consent or not.
             AppConsent consent = AppConsent.LoadAppConsent();
+            Debug.Log("consent:" + consent);
 
             // If there's a stored consent:
             // the implementation of this demo app guarantees
@@ -218,13 +218,16 @@ namespace EasyMobile.WSConsent
             // These modules would have automatically stored their own consent persistently
             // and use that consent during initialization.
             // In short we'll just go ahead with initializing the EM runtime.
-            if (consent != null)
-            {
-                if (RuntimeManager.IsInitialized())
-                    RuntimeManager.Init();
+            //if (consent != null)
+            //{
+            //    if (RuntimeManager.IsInitialized())
+            //        RuntimeManager.Init();
 
-                return;
-            }
+            //    return;
+            //}
+
+
+            WSFetchUnityAnalyticsOptOutURL();
 
             // If there's no consent:
             // We'll show the demo consent dialog and ask the user for data privacy consent
@@ -235,19 +238,19 @@ namespace EasyMobile.WSConsent
             // First fetch the UnityAds opt-out URL which is needed for the consent dialog.
             // Once it's fetched, we'll show the dialog. Once the dialog completes, we'll
             // initialize EM runtime, see DemoDialog_Completed event handler below.
-            FetchUnityAnalyticsOptOutURL(
-                (url) =>
-                {
-                    // Success: show the demo consent dialog in English.
-                    ShowConsentDialog(false);
-                },
-                (error) =>
-                {
-                    // Failure: also show the demo consent dialog in English.
-                    // The toogle for Unity Analytics will automatically update
-                    // its description to reflect that the URL is not available.
-                    ShowConsentDialog(false);
-                });
+            //FetchUnityAnalyticsOptOutURL(
+            //    (url) =>
+            //    {
+            //        // Success: show the demo consent dialog in English.
+            //        ShowConsentDialog(false);
+            //    },
+            //    (error) =>
+            //    {
+            //        // Failure: also show the demo consent dialog in English.
+            //        // The toogle for Unity Analytics will automatically update
+            //        // its description to reflect that the URL is not available.
+            //        ShowConsentDialog(false);
+            //    });
         }
 
         void Update()
@@ -409,88 +412,23 @@ namespace EasyMobile.WSConsent
 
         #region Unity Analytics URL Fetching
 
-        /// <summary>
-        /// Fetchs the Unity Analytics opt out URL.
-        /// </summary>
-        /// <param name="success">Success.</param>
-        /// <param name="failure">Failure.</param>
-        public static void FetchUnityAnalyticsOptOutURL(Action<string> success, Action<string> failure)
-        {
-            // If the URL was loaded before, just invoke the success callback immediately.
-            if (!string.IsNullOrEmpty(unityAnalyticsOptOutURL))
-            {
-                if (success != null)
-                    success(unityAnalyticsOptOutURL);
-            }
 
-            // Here we need to invokes the methods via reflection because we don't know if
-            // you've imported the Unity Data Privacy plugin or not!
-            // In your actual app you can simply import the plugin and call it methods as normal.
-            // If you're using Unity 2018.3.0 or newer, there's no need to import the plugin because
-            // the methods are included in the Analytics library package already.
-
-            string dataPrivacyClassName = "UnityEngine.Analytics.DataPrivacy";
-            string initMethodName = "Initialize";
-            string fetchURLMethodName = "FetchPrivacyUrl";
-            Type dataPrivacyClass = null;
-
-            var assemblies = AppDomain.CurrentDomain.GetAssemblies();
-            foreach (var assembly in assemblies)
-            {
-                dataPrivacyClass = assembly.GetType(dataPrivacyClassName);
-                if (dataPrivacyClass != null)
-                    break;
-            }
-
-            if (dataPrivacyClass == null)
-            {
-                OnFetchUnityAnalyticsURLFailure("DataPrivacy class not found. Have you imported Unity Data Privacy plugin?", failure);
-                return;
-            }
-
-            MethodInfo initMethod = dataPrivacyClass.GetMethod(initMethodName, BindingFlags.Public | BindingFlags.Static);
-            MethodInfo fetchURLMethod = dataPrivacyClass.GetMethod(fetchURLMethodName, BindingFlags.Public | BindingFlags.Static);
-
-            if (initMethod == null || fetchURLMethod == null)
-            {
-                OnFetchUnityAnalyticsURLFailure("Method not found. Have you imported Unity Data Privacy plugin?", failure);
-                return;
-            }
-
-            // Initialize Unity's DataPrivacy plugin.
-            initMethod.Invoke(null, null);
-
-            // Now fetch the opt-out URL.
-            fetchURLMethod.Invoke(null,
-                new object[]
-                {
-                    (Action<string>)((url) =>
-                    {
-                        OnFetchUnityAnalyticsURLSuccess(url, success);
-                    }),
-                    (Action<string>)((error) =>
-                    {
-                        OnFetchUnityAnalyticsURLFailure(error, failure);
-                    })
-                });
+        public void WSFetchUnityAnalyticsOptOutURL() {
+            UnityEngine.Analytics.DataPrivacy.FetchPrivacyUrl(WSFetchURLsuccessful, WSFetchURLfailed);
         }
 
-        private static void OnFetchUnityAnalyticsURLSuccess(string url, Action<string> callback)
+        void WSFetchURLsuccessful(string url)
         {
+            Debug.Log("URL: " + url);
             unityAnalyticsOptOutURL = url;
-            if (callback != null)
-                callback(url);
-
-            Debug.Log("Unity Analytics opt-out URL is fetched successfully.");
+            ShowConsentDialog(false);
         }
 
-        private static void OnFetchUnityAnalyticsURLFailure(string error, Action<string> callback)
+        void WSFetchURLfailed(string fail)
         {
+            Debug.Log("URL not found!");
             unityAnalyticsOptOutURL = string.Empty;
-            if (callback != null)
-                callback(error);
-
-            Debug.LogWarning("Fetching Unity Analytics opt-out URL failed with error: " + error);
+            ShowConsentDialog(false);
         }
 
         #endregion

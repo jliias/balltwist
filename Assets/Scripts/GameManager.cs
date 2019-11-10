@@ -48,7 +48,7 @@ public class GameManager : MonoBehaviour
     private void Awake()
     {
         Debug.Log("Consent: " + Advertising.DataPrivacyConsent);
-        if (!PlayerPrefs.HasKey("Balltwister_AppConsentX"))
+        if (!PlayerPrefs.HasKey("Balltwister_AppConsent"))
         {
             SceneManager.LoadScene("01_Consent");
         }

@@ -16,7 +16,7 @@ namespace EasyMobile.WSConsent
     [Serializable]
     public class AppConsent
     {
-        public const string DemoStorageKey = "Balltwister_AppConsentX";
+        public const string DemoStorageKey = "Balltwister_AppConsent";
 
         #region 3rd-party Services Consent
 
