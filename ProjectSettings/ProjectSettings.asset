@@ -120,7 +120,7 @@ PlayerSettings:
     16:10: 1
     16:9: 1
     Others: 1
-  bundleVersion: 1.0.7.0
+  bundleVersion: 1.0.7.1
   preloadedAssets: []
   metroInputSource: 0
   wsaTransparentSwapchain: 0
@@ -166,7 +166,7 @@ PlayerSettings:
   applicationIdentifier:
     Android: com.gamaan.ball.twist
   buildNumber: {}
-  AndroidBundleVersionCode: 430070
+  AndroidBundleVersionCode: 430071
   AndroidMinSdkVersion: 18
   AndroidTargetSdkVersion: 0
   AndroidPreferredInstallLocation: 1
@@ -256,7 +256,7 @@ PlayerSettings:
   clonedFromGUID: 00000000000000000000000000000000
   templatePackageId: 
   templateDefaultScene: 
-  AndroidTargetArchitectures: 1
+  AndroidTargetArchitectures: 3
   AndroidSplashScreenScale: 0
   androidSplashScreen: {fileID: 0}
   AndroidKeystoreName: "C:/Users/jussi/Documents/transfer/ty\xF6p\xF6yt\xE4/GAME/JuhaLiiasAndroid.keystore"
@@ -280,7 +280,7 @@ PlayerSettings:
   - m_BuildTarget: 
     m_Icons:
     - serializedVersion: 2
-      m_Icon: {fileID: 2800000, guid: a5ad691b75164e443bd3eb39253e659f, type: 3}
+      m_Icon: {fileID: 2800000, guid: eb91dcd7e8dcae243a53eb804526f25f, type: 3}
       m_Width: 128
       m_Height: 128
       m_Kind: 0
