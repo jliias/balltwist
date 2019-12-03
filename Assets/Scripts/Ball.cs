@@ -8,14 +8,13 @@ public class Ball : MonoBehaviour
 	public string thisColor;
 
 	public GameObject wrongTreasurePuff;
+    public GameObject collector;
 
 	public float gameSpeed;
 
 	// We need to access methods and variables from
 	// BallsBehavior class
 	private BallsBehaviour ballParent;
-
-	// private ParticleSystem thisParticle;
 
 	// Use this for initialization
 	void Start ()
@@ -36,8 +35,9 @@ public class Ball : MonoBehaviour
 			ballParent.DestroyBalls ();
 		} else if (other.transform.tag == "treasure") {
 			if (thisColor == other.GetComponent<TreasureScript> ().treasureColor) {
-				// If hit correct colour treasure -> get more points etc.
-				Transform.FindObjectOfType<GameManager> ().CollectCoin ();
+                // If hit correct colour treasure -> get more points etc.
+                Instantiate(collector, other.transform.position, Quaternion.identity);
+                Transform.FindObjectOfType<GameManager> ().CollectCoin ();
 				Destroy (other.gameObject);
 			} else {
 				// Wrong color treasure hit -> puff of smoke instantiated

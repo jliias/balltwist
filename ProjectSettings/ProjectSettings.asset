@@ -47,7 +47,7 @@ PlayerSettings:
   defaultScreenWidthWeb: 960
   defaultScreenHeightWeb: 600
   m_StereoRenderingPath: 0
-  m_ActiveColorSpace: 0
+  m_ActiveColorSpace: 1
   m_MTRendering: 1
   m_StackTraceTypes: 010000000100000001000000010000000100000001000000
   iosShowActivityIndicatorOnLoading: -1
@@ -120,7 +120,7 @@ PlayerSettings:
     16:10: 1
     16:9: 1
     Others: 1
-  bundleVersion: 1.0.6.3
+  bundleVersion: 1.0.7.0
   preloadedAssets: []
   metroInputSource: 0
   wsaTransparentSwapchain: 0
@@ -166,8 +166,8 @@ PlayerSettings:
   applicationIdentifier:
     Android: com.gamaan.ball.twist
   buildNumber: {}
-  AndroidBundleVersionCode: 430063
-  AndroidMinSdkVersion: 16
+  AndroidBundleVersionCode: 430070
+  AndroidMinSdkVersion: 18
   AndroidTargetSdkVersion: 0
   AndroidPreferredInstallLocation: 1
   aotOptions: 
@@ -390,7 +390,10 @@ PlayerSettings:
       m_Kind: 0
       m_SubKind: 
   m_BuildTargetBatching: []
-  m_BuildTargetGraphicsAPIs: []
+  m_BuildTargetGraphicsAPIs:
+  - m_BuildTarget: AndroidPlayer
+    m_APIs: 0b000000
+    m_Automatic: 0
   m_BuildTargetVRSettings: []
   openGLRequireES31: 0
   openGLRequireES31AEP: 0
@@ -634,7 +637,7 @@ PlayerSettings:
   scriptingDefineSymbols:
     1: UNITY_POST_PROCESSING_STACK_V2;EASY_MOBILE;EASY_MOBILE_PRO;EM_ADMOB
     4: EASY_MOBILE;EASY_MOBILE_PRO;NO_GPGS;EM_ADMOB
-    7: ILE_PRO;EM_ADMOB;EM_GPGSACK_V2;EASY_MOBILE;EASY_MOBILE_PRO;EM_ADMOB
+    7: ILE_PRO;EM_ADMOB;EM_GPGSACK_V2;EASY_MOBILE;EASY_MOBILE_PRO;EM_ADMOB;UNITY_POST_PROCESSING_STACK_V2;EM_GPGS
     13: UNITY_POST_PROCESSING_STACK_V2;EASY_MOBILE;EASY_MOBILE_PRO;EM_ADMOB
     14: EASY_MOBILE;EASY_MOBILE_PRO;EM_ADMOB
     19: UNITY_POST_PROCESSING_STACK_V2;EASY_MOBILE;EASY_MOBILE_PRO;EM_ADMOB

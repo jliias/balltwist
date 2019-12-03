@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class TreasureScript : MonoBehaviour
 {
+    public Material redMaterial;
+    public Material blueMaterial;
 
 	public float gameSpeed;
 
@@ -15,9 +17,11 @@ public class TreasureScript : MonoBehaviour
 		Material bottomMaterial = this.transform.Find ("Bottom").GetComponent<Renderer> ().material;
 		Debug.Log ("material: " + bottomMaterial);
 		if (treasureColor == "red") {
-			bottomMaterial.color = Color.red;
+            this.transform.Find("Bottom").GetComponent<Renderer>().material = redMaterial;
+            //bottomMaterial.color = Color.red;
 		} else {
-			bottomMaterial.color = Color.blue;		
+            this.transform.Find("Bottom").GetComponent<Renderer>().material = blueMaterial;
+            //bottomMaterial.color = Color.blue;		
 		}
 	}
 
