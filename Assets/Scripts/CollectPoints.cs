@@ -7,12 +7,7 @@ public class CollectPoints : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        // Destroy this after 1s
         Object.Destroy(this.gameObject, 1.0f);
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }

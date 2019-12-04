@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+// Script to implement moving enemies behavior
+// 
+
 public class EnemyScript : MonoBehaviour {
 
 	public float gameSpeed;
@@ -9,7 +12,9 @@ public class EnemyScript : MonoBehaviour {
 	public int moveDir = 0;
 	public int currentStage;
 
+    // How far from spawner movement is triggered
 	private float triggerDistance = 15f;
+    // How far object is moved
 	private float moveDistance = 4f;
 
 	// Use this for initialization
@@ -33,6 +38,7 @@ public class EnemyScript : MonoBehaviour {
 		this.transform.position = currentPos;
 	}
 
+    // Destroy, if hit to boundaryCollider
 	void OnTriggerEnter(Collider other) {
 		if (other.transform.tag == "boundaryCollider") {
 			if (this.transform.name == "Fence1" || this.transform.name == "Fence2") {

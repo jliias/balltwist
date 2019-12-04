@@ -2,6 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+// This spawner will create all enemy and treasure objects
+// according to gameSpeed setting and how far player has
+// succeeded to go in game.
+//
+// There are some commented code because of many trials
+// and test objects (that does not exist in current version)
+
 public class ObstacleSpawner : MonoBehaviour {
 
 	public GameObject boxPrefab1;
@@ -11,6 +18,7 @@ public class ObstacleSpawner : MonoBehaviour {
 	public GameObject fencePrefab2;
 	public GameObject treasure;
 
+    // Boundaries for spawning
 	public float leftLimit = -3f;
 	public float rightLimit = 3f;
 

@@ -39,14 +39,13 @@ public class GameManager : MonoBehaviour
     private float startTime;
 
     private bool isAndroid = false;
-    //private string leaderBoardID = "CgkI74KkqIoHEAIQAQ";
-
-    //public BannerAds myBannerAds;
 
     public Text debugText;
 
     private void Awake()
     {
+        // Check if consent exists
+        // If not, then go to consent screen
         Debug.Log("Consent: " + Advertising.DataPrivacyConsent);
         if (!PlayerPrefs.HasKey("Balltwister_AppConsent"))
         {
@@ -59,7 +58,6 @@ public class GameManager : MonoBehaviour
 
 #if UNITY_ANDROID
         isAndroid = true;
-        //GPlaySignIn();
         #endif
     }
 
@@ -80,6 +78,8 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // Master state machine of the game
+        // Should be simplified, if further development is done
         if (ballController.gameOver && gameState == 1)
         {
             obstacleSpawner.SetActive(false);
@@ -187,6 +187,7 @@ public class GameManager : MonoBehaviour
 
     }
 
+    // Function to initialize game to starting condition (menu state)
     void initializeGame()
     {
         this.gameState = 0;
@@ -221,7 +222,7 @@ public class GameManager : MonoBehaviour
         Application.OpenURL("https://play.google.com/store/apps/dev?id=5608008400672115508");
     }
 
-    /// <returns>true if mouse or first touch is over any event system object ( usually gui elements )</returns>
+    /// true if mouse or first touch is over any event system object ( usually gui elements )
     public static bool MyIsPointerOverGameObject()
     {
         //check mouse
@@ -238,33 +239,14 @@ public class GameManager : MonoBehaviour
         return false;
     }
 
-    void GPlaySignIn()
-    {
-        //if (!PlayGamesPlatform.Instance.IsAuthenticated()) {
-        //    debugText.text = "Signing in to gplay";
-        //    // Activate Play Games Platform
-        //    PlayGamesPlatform.Activate();
-        //    // authenticate user:
-        //    Social.localUser.Authenticate((bool success) =>
-        //    {
-        //        if (success)
-        //        {
-        //            Debug.Log("Login successful!");
-        //        }
-        //        else
-        //        {
-        //            Debug.LogWarning("Failed to sign in with Google Play Games.");
-        //        }
-        //    });
-        //}
-    }
-
+    // Function to post score using Easy Mobile plugin
     void GPlayPostScore(int score)
     {
         Debug.Log("Sending score to leaderboard");
         GameServices.ReportScore(score, EM_GameServicesConstants.Leaderboard_Master_Ball_Twisters);
     }
 
+    // Function to show leaderboard using Easy Mobile plugin
     public void showLeaderBoard()
     {
         Debug.Log("Showing leaderboard");
@@ -283,8 +265,8 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    // close possible banner ad and go to consent scene
     public void SetupConsent() {
-        //FindObjectOfType<AdMobAds>().DismissBanner();
         FindObjectOfType<BannerAds>().DismissBanner();
         SceneManager.LoadScene("01_Consent");
     }

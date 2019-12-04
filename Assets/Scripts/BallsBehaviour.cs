@@ -35,6 +35,7 @@ public class BallsBehaviour : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
 	{
+        // Game steering logic
 		if (!gameOver) {
 			if (gameRunning) {	
 				leftBallpos = this.leftBall.transform.position;
@@ -63,6 +64,7 @@ public class BallsBehaviour : MonoBehaviour
 		}
 	}
 
+    // Function to initialize balls to correct location
 	public void initializeBalls ()
 	{
 		leftBall = Instantiate (leftBallPrefab, new Vector3 (-1.5f, 0f, 0f), Quaternion.identity);
@@ -75,6 +77,7 @@ public class BallsBehaviour : MonoBehaviour
 		rightBall.GetComponent<Ball> ().gameSpeed = gameSpeed;
 	}
 
+    // set game to running state
 	public void StartGame ()
 	{
 		leftMovement = gameSpeed;
@@ -83,6 +86,7 @@ public class BallsBehaviour : MonoBehaviour
 		gameRunning = true;
 	}
 
+    // Destroy balls
 	public void DestroyBalls ()
 	{
 		gameOver = true;

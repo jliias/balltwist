@@ -7,7 +7,10 @@ public class Ball : MonoBehaviour
 
 	public string thisColor;
 
+    // puff of smoke to indicate hitting to wrong color coins
 	public GameObject wrongTreasurePuff;
+
+    // +100 to tell that ball hit correct color coins
     public GameObject collector;
 
 	public float gameSpeed;
@@ -28,14 +31,14 @@ public class Ball : MonoBehaviour
 	{
 		Debug.Log ("Trigger!");
 		if (other.transform.tag == "boundaryCollider") {
-			// boundaryCollider will destroy balls (via method from ballParent)
+			// boundaryCollider will destroy balls (method at ballParent)
 			ballParent.DestroyBalls ();
 		} else if (other.transform.tag == "enemy") {
 			// enemy tagged object will also destroy ball
 			ballParent.DestroyBalls ();
 		} else if (other.transform.tag == "treasure") {
 			if (thisColor == other.GetComponent<TreasureScript> ().treasureColor) {
-                // If hit correct colour treasure -> get more points etc.
+                // If hit correct colour treasure -> get more points
                 Instantiate(collector, other.transform.position, Quaternion.identity);
                 Transform.FindObjectOfType<GameManager> ().CollectCoin ();
 				Destroy (other.gameObject);

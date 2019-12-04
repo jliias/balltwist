@@ -5,18 +5,8 @@ using UnityEngine;
 public class ColliderScript : MonoBehaviour
 {
 
-	// Use this for initialization
-	void Start ()
-	{
-		
-	}
-	
-	// Update is called once per frame
-	void Update ()
-	{
-		
-	}
-
+    // Collider object will destroy all "enemy" objects
+    // when exiting to the visible scene
 	void OnTriggerEnter (Collider other)
 	{
 		if (other.transform.tag == "enemy") {
