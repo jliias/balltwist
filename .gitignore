@@ -72,5 +72,6 @@ crashlytics-build.properties
 [Aa]ssets/WSConsent
 *.mp3
 *.meta
+[Pp]rojectSettings
 
 # End of https://www.gitignore.io/api/unity
