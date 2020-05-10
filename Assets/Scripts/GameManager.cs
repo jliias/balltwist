@@ -73,6 +73,8 @@ public class GameManager : MonoBehaviour
             highScore = PlayerPrefs.GetInt("localHighScore");
         }
         initializeGame();
+
+        Advertising.ShowBannerAd(BannerAdPosition.Bottom);
     }
 
     // Update is called once per frame
